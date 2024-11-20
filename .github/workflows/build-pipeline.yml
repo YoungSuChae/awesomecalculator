@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Python 3.7
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.7
 
@@ -37,7 +37,7 @@ jobs:
           coverage html
 
       - name: Archive code coverage HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report
           path: src/htmlcov
@@ -49,7 +49,7 @@ jobs:
           python -m build
 
       - name: Archive package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: awesome-calculator
           path: src/dist
@@ -59,19 +59,14 @@ jobs:
     needs: build
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: awesome-calculator
-
-      - name: List downloaded files
-        run: |
-          echo "Listing files in dist directory:"
-          ls -l dist
 
       - name: Install package
         run: |
           python -m pip install --upgrade pip
-          pip install dist/*.whl
+          pip install src/dist/dedreira_awesomecalculator-1.0.0-py3-none-any.whl
