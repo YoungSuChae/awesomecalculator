@@ -1,4 +1,3 @@
-# GitHub CI build pipeline
 name: Awesome Calculator CI build
 
 on:
@@ -16,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python 3.7
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.7
 
@@ -38,7 +37,7 @@ jobs:
           coverage html
 
       - name: Archive code coverage HTML report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
           path: src/htmlcov
@@ -50,7 +49,7 @@ jobs:
           python -m build
 
       - name: Archive package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: awesome-calculator
           path: src/dist
@@ -60,18 +59,14 @@ jobs:
     needs: build
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-        # Note: The `install-package` job is only present in the uploaded file, not in the pasted one.
-        # This job ensures the package is installed after it is built.
+        uses: actions/checkout@v3
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: awesome-calculator
-          # Note: The `download-artifact` step is also unique to the uploaded file.
 
       - name: Install package
         run: |
           python -m pip install --upgrade pip
-          pip install src/dist/dedreira_awesomecalculator-1.0.0-py3-none-any.whl
-        # This `install-package` step is not in the pasted file but is essential for package testing.
+          pip install dist/*.whl
