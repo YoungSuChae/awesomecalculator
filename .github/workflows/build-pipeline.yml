@@ -66,8 +66,10 @@ jobs:
         with:
           name: awesome-calculator
 
-      - name: List files
-        run: ls -R dist
+      - name: List downloaded files
+        run: |
+          echo "Listing files in dist directory:"
+          ls -l dist
 
       - name: Install package
         run: |
